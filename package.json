@@ -10,6 +10,8 @@
   },
   "dependencies": {
     "classnames": "^2.5.1",
+    "clsx": "^2.1.1",
+    "framer-motion": "^12.34.5",
     "leaflet": "^1.9.4",
     "leaflet.heat": "^0.2.0",
     "leaflet.markercluster": "^1.5.3",
@@ -18,7 +20,8 @@
     "react": "19.2.3",
     "react-dom": "19.2.3",
     "react-leaflet": "^5.0.0",
-    "react-leaflet-cluster": "^4.0.0"
+    "react-leaflet-cluster": "^4.0.0",
+    "tailwind-merge": "^3.5.0"
   },
   "devDependencies": {
     "@types/leaflet": "^1.9.21",

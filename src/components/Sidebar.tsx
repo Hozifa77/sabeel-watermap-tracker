@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { RegionData, getSeverityLabel, calculatePriorityScore } from '@/lib/data';
-import { X, Search, Filter, Droplets, MapPin, Share2, FileText, ChevronRight, Activity, TrendingUp, Moon, Sun } from 'lucide-react';
+import { X, Search, Filter, Droplets, MapPin, Share2, FileText, ChevronRight, Activity, TrendingUp, Moon, Sun, ExternalLink } from 'lucide-react';
 
 interface SidebarProps {
     regions: RegionData[];
@@ -130,6 +130,38 @@ export default function Sidebar({ regions, selectedRegion, onRegionSelect, isDar
                                 Launch Impact Simulator
                             </button>
                         </div>
+                    </div>
+
+                    <div>
+                        <h3 style={{ fontSize: '0.875rem', fontWeight: 600, textTransform: 'uppercase', color: 'var(--muted)', margin: '1rem 0 0.75rem 0' }}>Support This Region</h3>
+                        {selectedRegion.donation_links && selectedRegion.donation_links.length > 0 ? (
+                            <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
+                                {selectedRegion.donation_links.map((link, idx) => (
+                                    <a
+                                        key={idx}
+                                        href={link.url}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        className="btn btn-secondary"
+                                        style={{ width: '100%', justifyContent: 'center', backgroundColor: 'var(--surface)', border: '1px solid var(--border)', fontSize: '0.875rem', fontWeight: 600, color: 'var(--foreground)', transition: 'transform 0.2s, box-shadow 0.2s' }}
+                                        onMouseEnter={e => {
+                                            e.currentTarget.style.transform = 'translateY(-2px)';
+                                            e.currentTarget.style.boxShadow = '0 4px 12px rgba(0,0,0,0.1)';
+                                            e.currentTarget.style.borderColor = 'var(--primary)';
+                                        }}
+                                        onMouseLeave={e => {
+                                            e.currentTarget.style.transform = 'translateY(0)';
+                                            e.currentTarget.style.boxShadow = 'none';
+                                            e.currentTarget.style.borderColor = 'var(--border)';
+                                        }}
+                                    >
+                                        Donate via {link.name} <ExternalLink size={14} style={{ marginLeft: '0.5rem', opacity: 0.7 }} />
+                                    </a>
+                                ))}
+                            </div>
+                        ) : (
+                            <p style={{ fontSize: '0.875rem', color: 'var(--muted)', fontStyle: 'italic', padding: '1rem', backgroundColor: 'var(--surface)', borderRadius: 'var(--radius)', border: '1px dashed var(--border)', textAlign: 'center' }}>No verified donation links available yet.</p>
+                        )}
                     </div>
 
                     <p style={{ fontSize: '0.75rem', color: 'var(--muted)', textAlign: 'center', marginTop: 'auto', paddingTop: '1rem' }}>

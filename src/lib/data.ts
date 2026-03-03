@@ -12,6 +12,7 @@ export interface RegionData {
     data_source_name: string;
     data_source_link: string;
     last_updated_date: string;
+    donation_links?: { name: string, url: string }[];
 }
 
 export const MOCK_REGIONS: RegionData[] = [
@@ -28,7 +29,11 @@ export const MOCK_REGIONS: RegionData[] = [
         intervention_type: "Well drilling",
         data_source_name: "World Resource Institute",
         data_source_link: "https://www.wri.org",
-        last_updated_date: "2026-01-15T00:00:00Z"
+        last_updated_date: "2026-01-15T00:00:00Z",
+        donation_links: [
+            { name: "Water.org", url: "https://water.org" },
+            { name: "Charity: Water", url: "https://www.charitywater.org" }
+        ]
     },
     {
         region_id: "RGN-1002",
@@ -43,7 +48,10 @@ export const MOCK_REGIONS: RegionData[] = [
         intervention_type: "Well drilling",
         data_source_name: "UNICEF Water Data",
         data_source_link: "https://data.unicef.org",
-        last_updated_date: "2026-02-10T00:00:00Z"
+        last_updated_date: "2026-02-10T00:00:00Z",
+        donation_links: [
+            { name: "UNICEF", url: "https://www.unicef.org/sudan" }
+        ]
     },
     {
         region_id: "RGN-1003",
@@ -73,7 +81,10 @@ export const MOCK_REGIONS: RegionData[] = [
         intervention_type: "Water purification",
         data_source_name: "Red Cross Reporting",
         data_source_link: "https://www.icrc.org",
-        last_updated_date: "2026-01-20T00:00:00Z"
+        last_updated_date: "2026-01-20T00:00:00Z",
+        donation_links: [
+            { name: "ICRC Yemen", url: "https://www.icrc.org/en/where-we-work/middle-east/yemen" }
+        ]
     },
     {
         region_id: "RGN-1005",
@@ -88,7 +99,10 @@ export const MOCK_REGIONS: RegionData[] = [
         intervention_type: "Rainwater harvesting",
         data_source_name: "National Water Registry",
         data_source_link: "https://example.org",
-        last_updated_date: "2026-02-18T00:00:00Z"
+        last_updated_date: "2026-02-18T00:00:00Z",
+        donation_links: [
+            { name: "WaterAid India", url: "https://www.wateraid.org/in/" }
+        ]
     },
     {
         region_id: "RGN-1006",
@@ -103,7 +117,10 @@ export const MOCK_REGIONS: RegionData[] = [
         intervention_type: "Well drilling",
         data_source_name: "WASH Observatory",
         data_source_link: "https://washdata.org",
-        last_updated_date: "2026-01-28T00:00:00Z"
+        last_updated_date: "2026-01-28T00:00:00Z",
+        donation_links: [
+            { name: "Amref Health Africa", url: "https://amref.org/" }
+        ]
     },
     {
         region_id: "RGN-1007",
@@ -133,7 +150,10 @@ export const MOCK_REGIONS: RegionData[] = [
         intervention_type: "Water purification",
         data_source_name: "Yemen Water Project",
         data_source_link: "https://example.org/ywp",
-        last_updated_date: "2026-02-20T00:00:00Z"
+        last_updated_date: "2026-02-20T00:00:00Z",
+        donation_links: [
+            { name: "Save the Children Yemen", url: "https://yemen.savethechildren.net/" }
+        ]
     },
     {
         region_id: "RGN-1009",
@@ -178,7 +198,59 @@ export const MOCK_REGIONS: RegionData[] = [
         intervention_type: "Water purification",
         data_source_name: "UNRWA",
         data_source_link: "https://unrwa.org",
-        last_updated_date: "2026-02-22T00:00:00Z"
+        last_updated_date: "2026-02-22T00:00:00Z",
+        donation_links: [
+            { name: "UNRWA Donate", url: "https://donate.unrwa.org/" },
+            { name: "Medical Aid for Palestinians", url: "https://www.map.org.uk/" }
+        ]
+    },
+    {
+        region_id: "RGN-1012",
+        region_name: "Somali Region",
+        country: "Ethiopia",
+        latitude: 6.9424,
+        longitude: 43.7744,
+        population_density_per_km2: 20,
+        total_population_affected: 600000,
+        water_scarcity_severity_index_0_100: 88,
+        average_project_cost_usd: 30000,
+        intervention_type: "Well drilling",
+        data_source_name: "USAID Water & Sanitation",
+        data_source_link: "https://www.usaid.gov",
+        last_updated_date: "2026-02-25T00:00:00Z",
+        donation_links: [
+            { name: "Oxfam", url: "https://www.oxfam.org/" }
+        ]
+    },
+    {
+        region_id: "RGN-1013",
+        region_name: "Afar Triangle",
+        country: "Djibouti",
+        latitude: 11.8251,
+        longitude: 42.5903,
+        population_density_per_km2: 12,
+        total_population_affected: 100000,
+        water_scarcity_severity_index_0_100: 97,
+        average_project_cost_usd: 24000,
+        intervention_type: "Water purification",
+        data_source_name: "Global Drought Monitor",
+        data_source_link: "https://example.org/drought",
+        last_updated_date: "2026-02-28T00:00:00Z"
+    },
+    {
+        region_id: "RGN-1014",
+        region_name: "Atacama Region Rural",
+        country: "Chile",
+        latitude: -27.3667,
+        longitude: -70.3333,
+        population_density_per_km2: 4,
+        total_population_affected: 45000,
+        water_scarcity_severity_index_0_100: 72,
+        average_project_cost_usd: 50000,
+        intervention_type: "Pipeline infrastructure",
+        data_source_name: "Chile Water Ministry",
+        data_source_link: "https://mop.gob.cl",
+        last_updated_date: "2026-03-01T00:00:00Z"
     }
 ];
 

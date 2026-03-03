@@ -1,8 +1,9 @@
 'use client';
 
 import Link from 'next/link';
-import { MapPin, Users, Droplets, TrendingUp, ArrowRight, Globe, Database, Share2, ChevronDown } from 'lucide-react';
+import { MapPin, Users, Droplets, TrendingUp, ArrowRight, Globe, Database, Share2, ChevronDown, Activity, AlertTriangle } from 'lucide-react';
 import { MOCK_REGIONS, getSeverityLabel, calculatePriorityScore } from '@/lib/data';
+import { motion, useScroll, useTransform } from 'framer-motion';
 import Footer from '@/components/Footer';
 
 const stats = {
@@ -47,180 +48,339 @@ const steps = [
 ];
 
 export default function LandingPage() {
+  const { scrollY } = useScroll();
+  const y1 = useTransform(scrollY, [0, 500], [0, 100]);
+  const opacity = useTransform(scrollY, [0, 300], [1, 0]);
+
   return (
     <main>
       {/* HERO */}
-      <section className="hero-section">
-        <div className="container hero-content">
-          <div className="hero-badge animate-fade-in">
-            <Droplets size={14} />
-            <span>Free Open Data Platform</span>
-          </div>
-          <h1 className="hero-title animate-slide-up">
-            Water Doesn't Reach <span className="hero-highlight">Billions</span>.<br />
-            We Map Every Region.
-          </h1>
-          <p className="hero-subtitle animate-slide-up">
-            Sabeel is a free public platform that visualizes global water scarcity regions on an interactive map — helping individuals, NGOs, and governments identify the most critical areas in need of water access projects.
-          </p>
-          <div className="flex gap-4 flex-wrap justify-center animate-slide-up">
-            <Link href="/map" className="btn btn-primary btn-lg">
-              Explore Water Map <ArrowRight size={18} />
-            </Link>
-            <Link href="/map?tab=urgent" className="btn btn-secondary btn-lg">
-              View Most Critical Areas
-            </Link>
-          </div>
-          <a href="#stats" className="scroll-hint">
-            <ChevronDown size={24} />
-          </a>
+      <section className="relative overflow-hidden bg-background" style={{ padding: '8rem 0 4rem', minHeight: '90vh', display: 'flex', alignItems: 'center' }}>
+
+        {/* Animated Background Elements */}
+        <div className="absolute inset-0 pointer-events-none" style={{ zIndex: 0, overflow: 'hidden' }}>
+          <motion.div
+            style={{ y: y1 }}
+            className="absolute"
+            initial={{ opacity: 0, scale: 0.8 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 1.5, ease: "easeOut" }}
+          >
+            <div style={{
+              position: 'absolute', top: '10%', left: '-10%', width: '40vw', height: '40vw',
+              background: 'radial-gradient(circle, var(--primary) 0%, transparent 70%)',
+              opacity: 0.1, filter: 'blur(80px)'
+            }} />
+            <div style={{
+              position: 'absolute', top: '40%', right: '-5%', width: '30vw', height: '30vw',
+              background: 'radial-gradient(circle, #0ea5e9 0%, transparent 70%)',
+              opacity: 0.1, filter: 'blur(60px)'
+            }} />
+          </motion.div>
         </div>
-        <div className="hero-gradient" />
+
+        <div className="container relative" style={{ zIndex: 1, maxWidth: '900px', margin: '0 auto', textAlign: 'center' }}>
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, ease: "easeOut" }}
+            className="inline-flex items-center gap-2 mb-8"
+            style={{
+              padding: '0.5rem 1.25rem',
+              fontSize: '0.875rem',
+              fontWeight: 600,
+              color: 'var(--primary)',
+              backgroundColor: 'rgba(56, 189, 248, 0.1)',
+              borderRadius: '2rem',
+              border: '1px solid rgba(56, 189, 248, 0.2)'
+            }}
+          >
+            <Droplets size={16} /> Free Open Data Platform
+          </motion.div>
+
+          <motion.h1
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.7, delay: 0.1, ease: "easeOut" }}
+            style={{
+              fontSize: 'clamp(2.5rem, 8vw, 4.5rem)',
+              fontWeight: 800,
+              lineHeight: 1.1,
+              marginBottom: '1.5rem',
+              color: 'var(--foreground)',
+              letterSpacing: '-0.02em'
+            }}
+          >
+            Water Doesn't Reach <span style={{ color: 'var(--primary)', backgroundImage: 'linear-gradient(135deg, var(--primary), #0ea5e9)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>Billions</span>.<br />
+            We Map Every Region.
+          </motion.h1>
+
+          <motion.p
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.7, delay: 0.2, ease: "easeOut" }}
+            style={{
+              fontSize: '1.2rem',
+              color: 'var(--muted)',
+              lineHeight: 1.6,
+              marginBottom: '2.5rem',
+              maxWidth: '700px',
+              margin: '0 auto 2.5rem'
+            }}
+          >
+            Sabeel is a free public platform that visualizes global water scarcity regions on an interactive map — helping individuals, NGOs, and governments identify the most critical areas in need of water access projects.
+          </motion.p>
+
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.7, delay: 0.3, ease: "easeOut" }}
+            className="flex gap-4 flex-wrap justify-center mb-12"
+          >
+            <Link href="/map" className="btn btn-primary btn-lg" style={{ padding: '1rem 2rem', fontSize: '1.1rem', boxShadow: '0 8px 20px rgba(56, 189, 248, 0.3)' }}>
+              Explore Water Map <ArrowRight size={20} />
+            </Link>
+            <Link href="/map?tab=urgent" className="btn btn-secondary btn-lg" style={{ padding: '1rem 2rem', fontSize: '1.1rem' }}>
+              View Critical Areas
+            </Link>
+          </motion.div>
+
+          <motion.a
+            href="#stats"
+            style={{ opacity }}
+            transition={{ duration: 1, repeat: Infinity, repeatType: "reverse" }}
+            className="inline-flex justify-center flex-col items-center"
+            aria-label="Scroll down"
+          >
+            <span style={{ fontSize: '0.875rem', color: 'var(--muted)', marginBottom: '0.5rem' }}>Scroll to explore</span>
+            <ChevronDown size={24} color="var(--muted)" />
+          </motion.a>
+        </div>
       </section>
 
       {/* STATS */}
-      <section id="stats" className="stats-section">
+      <section id="stats" className="stats-section relative z-10" style={{ marginTop: '-4rem' }}>
         <div className="container">
-          <div className="stats-grid">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
             {[
               { icon: MapPin, value: stats.regions, label: 'Regions Tracked', color: 'var(--primary)' },
-              { icon: Users, value: stats.people.toLocaleString(), label: 'People Affected', color: 'var(--severity-critical)' },
-              { icon: Globe, value: stats.countries, label: 'Countries Mapped', color: 'var(--severity-high)' },
-              { icon: TrendingUp, value: `$${(stats.avgCost / 1000).toFixed(0)}k`, label: 'Avg. Project Cost', color: 'var(--severity-low)' },
+              { icon: Users, value: stats.people.toLocaleString(), label: 'People Affected', color: '#ef4444' },
+              { icon: Globe, value: stats.countries, label: 'Countries Mapped', color: '#f97316' },
+              { icon: TrendingUp, value: `$${(stats.avgCost / 1000).toFixed(0)}k`, label: 'Avg. Project Cost', color: '#10b981' },
             ].map((stat, i) => (
-              <div key={i} className="stat-card">
-                <div className="stat-icon-wrap" style={{ backgroundColor: `${stat.color}15` }}>
-                  <stat.icon size={24} color={stat.color} />
+              <motion.div
+                key={i}
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: "-100px" }}
+                transition={{ duration: 0.5, delay: i * 0.1 }}
+                className="panel"
+                style={{
+                  padding: '2rem 1.5rem',
+                  textAlign: 'center',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  alignItems: 'center',
+                  boxShadow: '0 10px 30px rgba(0,0,0,0.05)',
+                  borderTop: `4px solid ${stat.color}`
+                }}
+              >
+                <div style={{ backgroundColor: `${stat.color}15`, width: '56px', height: '56px', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '1.25rem' }}>
+                  <stat.icon size={28} color={stat.color} />
                 </div>
-                <p className="stat-value">{stat.value}</p>
-                <p className="stat-label">{stat.label}</p>
-              </div>
+                <p style={{ fontSize: '2.5rem', fontWeight: 800, lineHeight: 1, marginBottom: '0.5rem', color: 'var(--foreground)' }}>{stat.value}</p>
+                <p style={{ fontSize: '0.875rem', color: 'var(--muted)', fontWeight: 500, textTransform: 'uppercase', letterSpacing: '0.05em' }}>{stat.label}</p>
+              </motion.div>
             ))}
           </div>
         </div>
       </section>
 
       {/* HOW IT WORKS */}
-      <section className="how-section">
+      <section className="py-24 bg-surface" style={{ padding: '6rem 0', borderTop: '1px solid var(--border)', borderBottom: '1px solid var(--border)' }}>
         <div className="container">
-          <div className="section-header">
-            <h2 className="section-title">How Sabeel Works</h2>
-            <p className="section-subtitle">Three simple steps from raw data to global impact</p>
-          </div>
-          <div className="steps-grid">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="text-center mb-16"
+          >
+            <h2 style={{ fontSize: '2.5rem', fontWeight: 700, marginBottom: '1rem', color: 'var(--foreground)' }}>How Sabeel Works</h2>
+            <p style={{ fontSize: '1.1rem', color: 'var(--muted)', maxWidth: '600px', margin: '0 auto' }}>Three simple steps from raw data to global impact</p>
+          </motion.div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 relative">
+            {/* Connecting Line */}
+            <div className="hidden md:block absolute top-[48px] left-[15%] right-[15%] h-[2px]" style={{ background: 'linear-gradient(90deg, var(--primary) 0%, #10b981 100%)', opacity: 0.2 }} />
+
             {steps.map((step, i) => (
-              <div key={i} className="step-card">
-                <div className="step-number" style={{ borderColor: step.color, color: step.color }}>
+              <motion.div
+                key={i}
+                initial={{ opacity: 0, scale: 0.9 }}
+                whileInView={{ opacity: 1, scale: 1 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.5, delay: i * 0.2 }}
+                className="relative z-10 flex flex-col items-center text-center"
+              >
+                <div style={{
+                  position: 'absolute', top: '-1rem', left: '50%', transform: 'translateX(-50%)',
+                  width: '32px', height: '32px', borderRadius: '50%',
+                  backgroundColor: 'var(--background)', border: `2px solid ${step.color}`,
+                  display: 'flex', alignItems: 'center', justifyContent: 'center',
+                  fontWeight: 700, color: step.color, zIndex: 10
+                }}>
                   {i + 1}
                 </div>
-                <div className="step-icon-wrap" style={{ backgroundColor: `${step.color}15` }}>
-                  <step.icon size={28} color={step.color} />
+                <div style={{ backgroundColor: 'var(--background)', width: '96px', height: '96px', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '1rem 0 1.5rem', boxShadow: '0 10px 25px rgba(0,0,0,0.05)', border: '1px solid var(--border)' }}>
+                  <step.icon size={40} color={step.color} />
                 </div>
-                <h3 className="step-title">{step.title}</h3>
-                <p className="step-desc">{step.description}</p>
-              </div>
+                <h3 style={{ fontSize: '1.25rem', fontWeight: 700, marginBottom: '1rem' }}>{step.title}</h3>
+                <p style={{ color: 'var(--muted)', lineHeight: 1.6 }}>{step.description}</p>
+              </motion.div>
             ))}
           </div>
         </div>
       </section>
 
       {/* TOP CRITICAL REGIONS PREVIEW */}
-      <section className="regions-section">
+      <section style={{ padding: '6rem 0' }}>
         <div className="container">
-          <div className="section-header">
-            <h2 className="section-title">Most Critical Regions Right Now</h2>
-            <p className="section-subtitle">Real-time severity rankings updated from open data sources</p>
+          <div className="flex flex-col md:flex-row justify-between items-end mb-12">
+            <div>
+              <h2 style={{ fontSize: '2.5rem', fontWeight: 700, marginBottom: '0.5rem', color: 'var(--foreground)' }}>Most Critical Regions</h2>
+              <p style={{ fontSize: '1.1rem', color: 'var(--muted)', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                <AlertTriangle size={18} color="#ef4444" /> Real-time priorities based on severity & density
+              </p>
+            </div>
+            <Link href="/map" className="btn btn-secondary mt-4 md:mt-0">
+              View All on Map <ArrowRight size={16} />
+            </Link>
           </div>
-          <div className="regions-grid">
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {topUrgent.map((region, i) => {
               const { label, className } = getSeverityLabel(region.water_scarcity_severity_index_0_100);
               const score = calculatePriorityScore(region);
+
               return (
-                <div key={region.region_id} className="region-preview-card">
-                  <div className="region-rank">#{i + 1}</div>
-                  <div className="flex justify-between items-start" style={{ marginBottom: '0.75rem' }}>
+                <motion.div
+                  key={region.region_id}
+                  initial={{ opacity: 0, y: 30 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.5, delay: i * 0.1 }}
+                  className="panel hover:border-primary transition-colors"
+                  style={{ padding: '1.5rem', display: 'flex', flexDirection: 'column' }}
+                >
+                  <div className="flex justify-between items-start mb-4">
                     <div>
-                      <h3 className="region-name">{region.region_name}</h3>
-                      <p className="region-country"><MapPin size={13} />{region.country}</p>
+                      <h3 style={{ fontSize: '1.25rem', fontWeight: 700, marginBottom: '0.25rem' }}>{region.region_name}</h3>
+                      <p style={{ color: 'var(--muted)', display: 'flex', alignItems: 'center', gap: '0.25rem', fontSize: '0.875rem' }}>
+                        <MapPin size={14} /> {region.country}
+                      </p>
                     </div>
                     <span className={`badge ${className}`}>{label}</span>
                   </div>
-                  <div className="severity-bar-wrap">
-                    <div
-                      className="severity-bar-fill"
-                      style={{
-                        width: `${region.water_scarcity_severity_index_0_100}%`,
-                        backgroundColor: `var(--severity-${label.toLowerCase()})`,
-                      }}
-                    />
-                  </div>
-                  <div className="region-stats-row">
-                    <div>
-                      <span className="stat-mini-label">Affected</span>
-                      <span className="stat-mini-val">{(region.total_population_affected / 1000).toFixed(0)}k</span>
+
+                  <div style={{ marginBottom: '1.5rem' }}>
+                    <div className="flex justify-between text-xs text-muted font-medium uppercase mb-2">
+                      <span>Severity</span>
+                      <span>{region.water_scarcity_severity_index_0_100}/100</span>
                     </div>
-                    <div>
-                      <span className="stat-mini-label">Est. Cost</span>
-                      <span className="stat-mini-val">${(region.average_project_cost_usd / 1000).toFixed(0)}k</span>
-                    </div>
-                    <div>
-                      <span className="stat-mini-label">Priority</span>
-                      <span className="stat-mini-val">{score.toFixed(1)}</span>
+                    <div style={{ width: '100%', height: '6px', backgroundColor: 'var(--border)', borderRadius: '3px', overflow: 'hidden' }}>
+                      <motion.div
+                        initial={{ width: 0 }}
+                        whileInView={{ width: `${region.water_scarcity_severity_index_0_100}%` }}
+                        viewport={{ once: true }}
+                        transition={{ duration: 1, delay: 0.5 }}
+                        style={{
+                          height: '100%',
+                          backgroundColor: `var(--severity-${label.toLowerCase()})`,
+                        }}
+                      />
                     </div>
                   </div>
-                  <Link href={`/map?region=${region.region_id}`} className="btn btn-secondary" style={{ width: '100%', marginTop: '1rem' }}>
-                    View on Map <ArrowRight size={14} />
+
+                  <div className="grid grid-cols-2 gap-4 mb-6 pt-4 border-t border-border">
+                    <div>
+                      <span style={{ fontSize: '0.75rem', color: 'var(--muted)', textTransform: 'uppercase', display: 'block' }}>Affected</span>
+                      <span style={{ fontSize: '1.1rem', fontWeight: 600 }}>{(region.total_population_affected / 1000).toFixed(0)}k</span>
+                    </div>
+                    <div>
+                      <span style={{ fontSize: '0.75rem', color: 'var(--muted)', textTransform: 'uppercase', display: 'block' }}>Est. Cost</span>
+                      <span style={{ fontSize: '1.1rem', fontWeight: 600 }}>${(region.average_project_cost_usd / 1000).toFixed(0)}k</span>
+                    </div>
+                  </div>
+
+                  <Link href={`/map?region=${region.region_id}`} className="btn" style={{ width: '100%', marginTop: 'auto', backgroundColor: 'var(--surface)', border: '1px solid var(--border)', color: 'var(--foreground)' }}>
+                    Analyze Data <ArrowRight size={16} />
                   </Link>
-                </div>
+                </motion.div>
               );
             })}
-          </div>
-          <div className="text-center" style={{ marginTop: '2.5rem' }}>
-            <Link href="/map" className="btn btn-primary btn-lg">
-              Explore All Regions <ArrowRight size={18} />
-            </Link>
           </div>
         </div>
       </section>
 
       {/* DATA SOURCES */}
-      <section className="sources-section">
-        <div className="container">
-          <div className="section-header">
-            <h2 className="section-title">Powered by Global Open Data</h2>
-            <p className="section-subtitle">We normalize and integrate data from the world's most trusted humanitarian databases</p>
-          </div>
-          <div className="sources-grid">
+      <section style={{ padding: '6rem 0', backgroundColor: 'var(--surface)', borderTop: '1px solid var(--border)' }}>
+        <div className="container text-center">
+          <h2 style={{ fontSize: '2rem', fontWeight: 700, marginBottom: '1rem', color: 'var(--foreground)' }}>Powered by Global Open Data</h2>
+          <p style={{ fontSize: '1.1rem', color: 'var(--muted)', maxWidth: '600px', margin: '0 auto 3rem' }}>We normalize and integrate data from the world's most trusted humanitarian databases</p>
+
+          <div className="flex flex-wrap justify-center gap-4 max-w-4xl mx-auto">
             {dataSources.map((src, i) => (
-              <div key={i} className="source-badge" style={{ borderColor: `${src.color}30`, backgroundColor: `${src.color}08` }}>
-                <span className="source-dot" style={{ backgroundColor: src.color }} />
-                <span className="source-name" style={{ color: src.color }}>{src.name}</span>
-              </div>
+              <motion.div
+                key={i}
+                initial={{ opacity: 0, scale: 0.9 }}
+                whileInView={{ opacity: 1, scale: 1 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.3, delay: i * 0.05 }}
+                className="flex items-center gap-2 px-6 py-3 bg-background border border-border rounded-full hover:border-primary transition-colors cursor-default shadow-sm"
+              >
+                <div style={{ width: '10px', height: '10px', borderRadius: '50%', backgroundColor: src.color }} />
+                <span style={{ fontWeight: 600, color: 'var(--foreground)' }}>{src.name}</span>
+              </motion.div>
             ))}
           </div>
         </div>
       </section>
 
       {/* CTA */}
-      <section className="cta-section">
+      <section style={{ padding: '8rem 0' }}>
         <div className="container">
-          <div className="cta-card">
-            <Droplets size={48} color="white" fill="white" style={{ opacity: 0.8, marginBottom: '1.5rem' }} />
-            <h2 style={{ fontSize: '2rem', fontWeight: 700, color: 'white', marginBottom: '1rem' }}>
-              Every Drop of Data Counts
-            </h2>
-            <p style={{ color: 'rgba(255,255,255,0.85)', maxWidth: '540px', margin: '0 auto 2rem', lineHeight: 1.7 }}>
-              Start exploring the water scarcity map, simulate project impact, and share critical regions with organizations that can help.
-            </p>
-            <div className="flex gap-4 justify-center flex-wrap">
-              <Link href="/map" className="btn" style={{ backgroundColor: 'white', color: 'var(--primary)', fontWeight: 600, padding: '0.75rem 2rem' }}>
-                Open the Map <ArrowRight size={18} />
-              </Link>
-              <Link href="/about" className="btn" style={{ backgroundColor: 'rgba(255,255,255,0.15)', color: 'white', border: '1px solid rgba(255,255,255,0.3)', padding: '0.75rem 2rem' }}>
-                Learn More
-              </Link>
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="relative overflow-hidden rounded-3xl text-center"
+            style={{
+              background: 'linear-gradient(135deg, var(--primary), #0284c7)',
+              padding: '5rem 2rem',
+              boxShadow: '0 20px 40px rgba(14, 165, 233, 0.2)'
+            }}
+          >
+            {/* Background pattern */}
+            <div className="absolute inset-0 opacity-10" style={{ backgroundImage: 'radial-gradient(circle at 2px 2px, white 1px, transparent 0)', backgroundSize: '32px 32px' }} />
+
+            <div className="relative z-10">
+              <Droplets size={48} color="white" fill="white" style={{ opacity: 0.9, margin: '0 auto 1.5rem' }} />
+              <h2 style={{ fontSize: 'clamp(2rem, 5vw, 3rem)', fontWeight: 800, color: 'white', marginBottom: '1rem', letterSpacing: '-0.02em' }}>
+                Every Drop of Data Counts
+              </h2>
+              <p style={{ color: 'rgba(255,255,255,0.9)', fontSize: '1.2rem', maxWidth: '600px', margin: '0 auto 2.5rem', lineHeight: 1.6 }}>
+                Start exploring the water scarcity map, simulate project impact, and share critical regions with organizations that can help.
+              </p>
+              <div className="flex gap-4 justify-center flex-wrap">
+                <Link href="/map" className="btn" style={{ backgroundColor: 'white', color: 'var(--primary)', fontWeight: 700, padding: '1rem 2.5rem', fontSize: '1.1rem', borderRadius: '2rem' }}>
+                  Open the Map <ArrowRight size={20} />
+                </Link>
+                <Link href="/about" className="btn" style={{ backgroundColor: 'transparent', color: 'white', border: '2px solid rgba(255,255,255,0.3)', fontWeight: 600, padding: '1rem 2.5rem', fontSize: '1.1rem', borderRadius: '2rem' }}>
+                  Learn More
+                </Link>
+              </div>
             </div>
-          </div>
+          </motion.div>
         </div>
       </section>
 
